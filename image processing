@@ -1,0 +1,38 @@
+import cv2
+import numpy as np
+import os
+haar_data=cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+capture=cv2.VideoCapture(0)
+data=[]
+labels=[]
+#while True:
+    #flag,img=capture.read()
+    #if flag:
+        #face = haar_data.detectMultiScale(img)
+        #for x, y, w, h in face:
+            #cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0))
+        #cv2.imshow('facess', img)
+        #faces = img[y:y + h, x:x + w, :]
+        #faces=cv2.resize(faces,(100,100))
+        #data.append(faces)
+        #print(len(data))
+        #if cv2.waitKey(2)==113 or len(data)==200:
+            #break
+#capture.release()
+#cv2.destroyAllWindows()
+#np.save('withoutmask.npy',data)
+#np.save('withmask.npy',data)
+with_mask=np.load('withmask.npy')
+without_mask=np.load('withoutmask.npy')
+with_mask=with_mask.reshape(200,100*100*3)
+print(with_mask.shape)
+without_mask=without_mask.reshape(200,100*100*3)
+X=np.r_[with_mask,without_mask]
+print(X.shape)
+y1=[0]*200
+y2=[1.0]*200
+y=y1+y2
+#0 for mask 1 for no mask
+from sklearn.svm import SVC
+
+
